@@ -55,3 +55,9 @@ const privateKey = await mantleController.exportAccount(address);
 ```
 const balance = await getBalance(address, web3);
 ```
+
+### Import Wallet into keyring
+
+```
+const address = await mantleController.importWallet(_privatekey);
+```
