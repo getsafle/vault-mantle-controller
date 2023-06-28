@@ -4,3 +4,4 @@
 
 - Implemented Keyring functionality to enable account generation, export keys
 - added license, readme and gitignore files
+- Added getBalance() to fetch the balance in native currency.
