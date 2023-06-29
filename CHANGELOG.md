@@ -8,3 +8,5 @@
 - Added importWallet() to import account using privateKey.
 - Added sign() to sign a message or transaction and get signature along with v,r,s.
 - Added method to sign a transaction
+- Added flow for devops
+- added package dependencies and package version
