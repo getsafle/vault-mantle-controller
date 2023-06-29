@@ -8,10 +8,14 @@ on:
     branches:
       - feature-*
       - bugfix-*
+      - dev
+      - test
   pull_request:
     branches:
       - feature-*
       - bugfix-*
+      - dev
+      - test
     paths:
       - package.json
       - CHANGELOG
