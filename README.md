@@ -50,3 +50,8 @@ const keyringState = await mantleController.addNewAccount(keyringObject);
 ```
 const privateKey = await mantleController.exportAccount(address);
 ```
+### Get balance
+
+```
+const balance = await getBalance(address, web3);
+```
