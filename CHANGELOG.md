@@ -6,3 +6,5 @@
 - added license, readme and gitignore files
 - Added getBalance() to fetch the balance in native currency.
 - Added importWallet() to import account using privateKey.
+- Added sign() to sign a message or transaction and get signature along with v,r,s.
+- Added method to sign a transaction

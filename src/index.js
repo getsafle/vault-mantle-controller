@@ -247,6 +247,67 @@ class KeyringController extends EventEmitter {
         }
     }
 
+    //
+    // SIGNING METHODS
+    //
+
+    /**
+     * Sign MANTLE Transaction
+     *
+     * Signs an MANTLE transaction object.
+     *
+     * @param {Object} mantleTx - The transaction to sign.
+     * @param {Object} web3 - web3 object.
+     * @returns {string} The signed transaction raw string.
+     */
+
+    async signTransaction(mantleTx, privateKey) {
+        const tx = new Tx(mantleTx);
+
+        const pkey = Buffer.from(privateKey, 'hex');
+
+        tx.sign(pkey);
+
+        const signedTx = `0x${tx.serialize().toString('hex')}`;
+
+        return signedTx;
+    }
+
+    /**
+     * Sign Transaction or Message to get v,r,s
+     *
+     * Signs a transaction object.
+     *
+     * @param {Object} rawTx - The transaction or message to sign.
+     * @param {Object} privateKey - The private key of the account.
+     * @param {Object} web3 - web3 object.
+     * @returns {Object} The signed transaction object.
+     */
+    async sign(rawTx, privateKey, web3) {
+        let signedTx;
+        if (typeof rawTx === 'string')
+            signedTx = await web3.eth.accounts.sign(rawTx, privateKey);
+        else
+            signedTx = await web3.eth.accounts.signTransaction({ ...rawTx, gas: await web3.eth.estimateGas({rawTx}) }, privateKey)
+        return signedTx
+    }
+
+    /**
+     * Sign Message
+     *
+     * Attempts to sign the provided message parameters.
+     *
+     * @param {Object} msgParams - The message parameters to sign.
+     * @returns {Promise<Buffer>} The raw signature.
+     */
+    signMessage(msgParams, opts = {}) {
+        const address = normalizeAddress(msgParams.from)
+        return this.getKeyringForAccount(address)
+            .then((keyring) => {
+                return keyring.signMessage(address, msgParams.data, opts)
+            })
+    }
+
 
     //
     // PRIVATE METHODS
@@ -438,7 +499,19 @@ class KeyringController extends EventEmitter {
         this.memStore.updateState({ isUnlocked: true })
         this.emit('unlock')
     }
-    
+
+
+    async sendTransaction(signedTx, web3) {
+        const receipt = await web3.eth.sendSignedTransaction(signedTx);
+        return { transactionDetails: receipt.transactionHash }
+    }
+
+    async getFees(mantleTx, web3) {
+        const { from, to, value, data, gasLimit } = mantleTx
+        const estimate = gasLimit ? gasLimit : await web3.eth.estimateGas({ to, from, value, data })
+        const gasPrice = await web3.eth.getGasPrice();
+        return { transactionFees: estimate * gasPrice }
+    }
 }
 
 const getBalance = async (address, web3) => {

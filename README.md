@@ -1,6 +1,6 @@
 # vault-mantle-controller
 
-This repository contains `mantleHdKeyring` class to create **Mantle wallet** from **Safle Vault**.
+This repository contains `MANTLEHdKeyring` class to create **Mantle wallet** from **Safle Vault**.
 
 ## Install
 
@@ -50,6 +50,25 @@ const keyringState = await mantleController.addNewAccount(keyringObject);
 ```
 const privateKey = await mantleController.exportAccount(address);
 ```
+
+### Sign a transaction
+
+```
+const signedTx = await mantleController.signTransaction(mantleTx, _fromAddress);
+```
+
+### Sign a message
+
+```
+const signedMsg = await mantleController.signMessage(msgParams);
+```
+
+### Sign a message
+
+```
+const signedObj = await mantleController.sign(msgParams, pvtKey, web3Obj);
+```
+
 ### Get balance
 
 ```
