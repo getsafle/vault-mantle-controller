@@ -9,7 +9,14 @@
   "scripts": {
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint --fix . --ext .js",
-    "test": "mocha --timeout 15000"
+    "test": "mocha \"test/**.js\" --timeout 15000",
+    "test: coverage": "pm run cover:unit && npm run cover: report",
+    "test: coveragehtml": "pm run cover:unit && pm run cover: reporthtml",
+    "cover:unit": "nyc --silent hpm run test",
+    "cover: report": "nyc report --reporter=lcov --reporter=text --report-dir='./jscoverage'"
+  },
+  "nyc": {
+    "exclude": ["test/**.js"]
   },
   "repository": {
     "type": "git",
