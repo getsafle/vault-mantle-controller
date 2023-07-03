@@ -10,10 +10,11 @@
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint --fix . --ext .js",
     "test": "mocha \"test/**.js\" --timeout 15000",
-    "test: coverage": "pm run cover:unit && npm run cover: report",
-    "test: coveragehtml": "pm run cover:unit && pm run cover: reporthtml",
-    "cover:unit": "nyc --silent hpm run test",
-    "cover: report": "nyc report --reporter=lcov --reporter=text --report-dir='./jscoverage'"
+    "test:coverage": "npm run cover:unit && npm run cover:report",
+    "test:coveragehtml": "npm run cover:unit && npm run cover:reporthtml",
+    "cover:unit": "nyc --silent npm run test",
+    "cover:report": "nyc report --reporter=lcov --reporter=text --report-dir='./jscoverage'",
+    "cover:reporthtml": "nyc report --reporter=html --report-dir='./jscoverage'"
   },
   "nyc": {
     "exclude": ["test/**.js"]
