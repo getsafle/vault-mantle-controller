@@ -28,4 +28,14 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 18
-      - run: npm ci
+      - name: Installing dependencies 
+        run: npm ci
+      - name: Run tests
+      run: |
+        npm run test
+        npx jest --coverage | tee ./coverage.txt && exit ${PIPESTATUS[0]}
+
+    - name: Jest Coverage Comment
+      uses: MishaKav/jest-coverage-comment@main
+      with:
+        coverage-path: ./coverage.txt
