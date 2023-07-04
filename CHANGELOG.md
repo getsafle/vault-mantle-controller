@@ -10,3 +10,4 @@
 - Added method to sign a transaction
 - Added flow for devops
 - added package dependencies and package version
+- Added test suite for Mantle controller
