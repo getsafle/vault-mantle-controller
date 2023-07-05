@@ -1,6 +1,6 @@
 # vault-mantle-controller<code><a href="https://www.docker.com/" target="_blank"><img height="50" src="https://www.gitbook.com/cdn-cgi/image/width=256,dpr=2,height=40,fit=contain,format=auto/https%3A%2F%2F2129957930-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FNHXgeqhgrznnRobzznxl%252Flogo%252FVdd8If7PeIF0Mrftq3Er%252FNYDPMM5Q.png%3Falt%3Dmedia%26token%3D2dd08523-d5b3-4bcf-aaf4-70368842ecdb"></a></code>
 
-<img alt="Static Badge" src="https://img.shields.io/badge/version-v1.0.0-blue">  <img alt="Static Badge" src="https://img.shields.io/badge/nvm-v6.0.6-red">  <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-green">   [![Discussions][discussions-badge]][discussions-link]
+[![npm version](https://badge.fury.io/js/@getsafle%2Fvault-mantle-controller.svg)](https://badge.fury.io/js/@getsafle%2Fvault-mantle-controller)   <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-green">   [![Discussions][discussions-badge]][discussions-link]
  <img alt="Static Badge" src="https://img.shields.io/badge/Mantle_controller-documentation-purple">   
 
 A Module is written in javascript for managing various keyrings of Mantle accounts, encrypting them, and using them. This repository contains `MANTLEHdKeyring` class to create **Mantle wallet** from **Safle Vault**.
