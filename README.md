@@ -1,27 +1,12 @@
-# vault-mantle-controller<code><a href="https://www.docker.com/" target="_blank"><img height="50" src="https://www.gitbook.com/cdn-cgi/image/width=256,dpr=2,height=40,fit=contain,format=auto/https%3A%2F%2F2129957930-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FNHXgeqhgrznnRobzznxl%252Flogo%252FVdd8If7PeIF0Mrftq3Er%252FNYDPMM5Q.png%3Falt%3Dmedia%26token%3D2dd08523-d5b3-4bcf-aaf4-70368842ecdb"></a></code>
+# vault-mantle-controller
 
-<img alt="Static Badge" src="https://img.shields.io/badge/version-v1.0.0-blue">  <img alt="Static Badge" src="https://img.shields.io/badge/nvm-v6.0.6-red">  <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-green">   [![Discussions][discussions-badge]][discussions-link]
- <img alt="Static Badge" src="https://img.shields.io/badge/Mantle_controller-documentation-purple">   
+This repository contains `MANTLEHdKeyring` class to create **Mantle wallet** from **Safle Vault**.
 
-A Module is written in javascript for managing various keyrings of Mantle accounts, encrypting them, and using them. This repository contains `MANTLEHdKeyring` class to create **Mantle wallet** from **Safle Vault**.
+## Install
 
-- [Installation](#installation)
-- [Initialize the Mantle Controller class](#initialize-the-mantle-controller-class)
-- [Methods](#methods)
-  - [Generate Keyring with 1 account and encrypt](#generate-keyring-with-1-account-and-encrypt)
-  - [Restore a keyring with the first account using a mnemonic](#restore-a-keyring-with-the-first-account-using-a-mnemonic)
-  - [Add a new account to the keyring object](#add-a-new-account-to-the-keyring-object)
-  - [Export the private key of an address present in the keyring](#export-the-private-key-of-an-address-present-in-the-keyring)
-  - [Sign a transaction](#sign-a-transaction)
-  - [Sign a message](#sign-a-message)
-  - [Get balance](#get-balance)
+`npm install --save @getsafle/vault-mantle-controller`
 
-
-## Installation
-```
-npm install --save @getsafle/vault-mantle-controller
-```
-## Initialize the Mantle Controller class
+## Initialize the MANTLE Controller class
 
 ```
 const { KeyringController, getBalance } = require('@getsafle/vault-mantle-controller');
@@ -89,5 +74,9 @@ const signedObj = await mantleController.sign(msgParams, pvtKey, web3Obj);
 ```
 const balance = await getBalance(address, web3);
 ```
-[discussions-badge]: https://img.shields.io/badge/Code_Quality-passing-rgba
-[discussions-link]: https://github.com/getsafle/vault-mantle-controller/actions
+
+### Import Wallet into keyring
+
+```
+const address = await mantleController.importWallet(_privatekey);
+```
