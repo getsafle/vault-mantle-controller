@@ -91,6 +91,7 @@ describe('Initialize wallet ', () => {
         console.log(" with manual gasLimit ", fees)
 
         const privateKey = await mantleKeyring.exportAccount(accounts[0])
+        console.log('privatekey=',privateKey)
         const tx3 = await mantleKeyring.sign(TESTING_MESSAGE_1, privateKey, web3)
         console.log("tx3 ", tx3)
     })

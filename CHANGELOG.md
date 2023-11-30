@@ -11,3 +11,7 @@
 - Added flow for devops
 - added package dependencies and package version
 - Added test suite for Mantle controller
+
+### 1.0.1 (2023-11-30)
+
+- Updated gasFee() method for type 1 transactions and added its test.
