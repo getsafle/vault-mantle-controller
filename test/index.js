@@ -76,26 +76,25 @@ describe('Initialize wallet ', () => {
         console.log("acc ", acc)
     })
 
-    it("Get fees with manual gasLimit", async () => {
-        const accounts = await mantleKeyring.getAccounts()
-        const web3 = new Web3(TESTNET.URL);
-        const tx = {
-        gasLimit: 2100
-    }
-        const fees = await mantleKeyring.getFees(tx, web3)
-        console.log(" with manual gasLimit ", fees)
-
-       const privateKey = await mantleKeyring.exportAccount(accounts[0])
-       console.log('privatekey=',privateKey)
-       const tx3 = await mantleKeyring.sign(TESTING_MESSAGE_1, privateKey, web3)
-       console.log("tx3 ", tx3)
-   })
- it("Should import correct account ", async () => {
+    it("Should import correct account ", async () => {
         const address = await mantleKeyring.importWallet(EXTERNAL_ACCOUNT_PRIVATE_KEY)
         assert(address.toLowerCase() === EXTERNAL_ACCOUNT_ADDRESS.toLowerCase(), "Wrong address")
         assert(mantleKeyring.importedWallets.length === 1, "Should have 1 imported wallet")
     })
-    
+    it("Get fees with manual gasLimit", async () => {
+        const accounts = await mantleKeyring.getAccounts()
+        const web3 = new Web3(TESTNET.URL);
+        const tx = {
+            gasLimit: 2100
+        }
+        const fees = await mantleKeyring.getFees(tx, web3)
+        console.log(" with manual gasLimit ", fees)
+
+        const privateKey = await mantleKeyring.exportAccount(accounts[0])
+        const tx3 = await mantleKeyring.sign(TESTING_MESSAGE_1, privateKey, web3)
+        console.log("tx3 ", tx3)
+    })
+
     it("Get address balance", async () => {
         const accounts = await mantleKeyring.getAccounts()
         const web3 = new Web3(TESTNET.URL);
@@ -104,26 +103,39 @@ describe('Initialize wallet ', () => {
         console.log(" get balance ", balance, accounts)
     })
 
+    it("Get fees for a mantle tx", async () => {
+        const accounts = await mantleKeyring.getAccounts()
+        const web3 = new Web3(TESTNET.URL);
+        const tx = {
+            from: accounts[0],
+            to: '0x641BB2596D8c0b32471260712566BF933a2f1a8e',
+            value: 0,
+            data: '0x00'
+        }
+        const getEstimate = await mantleKeyring.getFees(tx, web3)
+        console.log(" get gas estimate  ", getEstimate)
+    })
+
     it("sign Transaction ", async () => {
 
         const accounts = await mantleKeyring.getAccounts()
         const from = accounts[0]
         const web3 = new Web3(TESTNET.URL);
         const rawTx = {
-              to: '0xacde0f575d8caf7bdba417326797c1a1d1b21f88',        //recepient address
-              from,
-              nonce: await web3.eth.getTransactionCount(from),
-              gasPrice: web3.utils.toHex(3),
-              gas: web3.utils.toHex(300000),
-              value: web3.utils.toHex(100000),
+            to: '0xacde0f575d8caf7bdba417326797c1a1d1b21f88',        //recepient address
+            from,
+            nonce: await web3.eth.getTransactionCount(from),
+            gasPrice: web3.utils.toHex(3),
+            gas: web3.utils.toHex(300000),
+            value: web3.utils.toHex(100000),
         }
 
         const privateKey = await mantleKeyring.exportAccount(accounts[0])
         const signedTX = await mantleKeyring.signTransaction(rawTx, privateKey)
         console.log("signedTX =", signedTX)
 
-       const sentTX = await mantleKeyring.sendTransaction(signedTX, web3)
-        console.log("sentTX ", sentTX)
+        //    const sentTX = await mantleKeyring.sendTransaction(signedTX, web3)
+        //     console.log("sentTX ", sentTX)
     })
 
 })

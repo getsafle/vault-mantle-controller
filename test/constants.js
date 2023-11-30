@@ -21,10 +21,15 @@ module.exports = {
         MANTLE_AMOUNT: 13
     },
     MANTLE_NETWORK: {
+        MAINNET: {
+            NETWORK: "MAINNET",
+            CHAIN_ID: 5000,
+            URL: "https://rpc.ankr.com/mantle"
+        },
         TESTNET: {
             NETWORK: "TESTNET",
             CHAIN_ID: 5001,
-            URL: "https://rpc.testnet.mantle.xyz/"
+            URL: "https://rpc.ankr.com/mantle_testnet"
         }
     }
 }
