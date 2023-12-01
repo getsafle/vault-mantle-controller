@@ -135,8 +135,6 @@ describe('Initialize wallet ', () => {
         const signedTX = await mantleKeyring.signTransaction(rawTx, privateKey)
         console.log("signedTX =", signedTX)
 
-        //    const sentTX = await mantleKeyring.sendTransaction(signedTX, web3)
-        //     console.log("sentTX ", sentTX)
     })
 
 })

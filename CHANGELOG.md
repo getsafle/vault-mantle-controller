@@ -16,3 +16,4 @@
 
 - Updated gasFee() method for type 1 transactions and added its test.
 - Changed License to MIT.
+- removed commented code
