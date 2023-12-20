@@ -14,7 +14,6 @@ const { bufferToHex } = require('ethereumjs-util')
 
 const SimpleKeyring = require('eth-simple-keyring')
 const HdKeyring = require('eth-hd-keyring')
-let chainId;
 
 const keyringTypes = [
     SimpleKeyring,
@@ -269,6 +268,8 @@ class KeyringController extends EventEmitter {
 
         const pkey = Buffer.from(privateKey, 'hex');
 
+        const chainId = rawTx.chainId;
+
         const common = Common.custom({ chainId: chainId }, { hardfork: Hardfork.Istanbul })
         
         const tx = LegacyTransaction.fromTxData(rawTx,{common})
@@ -515,7 +516,6 @@ class KeyringController extends EventEmitter {
 
     async getFees(mantleTx, web3) {
         const { from, to, value, data, manualLimit } = mantleTx
-        chainId = await web3.eth.getChainId()
         const gasLimit = manualLimit ? manualLimit : await web3.eth.estimateGas({ to, from, value, data })
         const gasPrice = parseInt(await web3.eth.getGasPrice());
         const fees = {
