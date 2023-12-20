@@ -21,6 +21,7 @@ const {
         MANTLE_RECEIVER
     },
 } = require('./constants');
+const { send } = require('process');
 /*
 const CONTRACT_MINT_PARAM = {
     from: MANTLE_CONTRACT,
@@ -99,7 +100,6 @@ describe('Initialize wallet ', () => {
     it("Get address balance", async () => {
         const accounts = await mantleKeyring.getAccounts()
         const web3 = new Web3(TESTNET.URL);
-        //console.log("account" ,accounts);
         const balance = await getBalance(accounts[0], web3)
         console.log(" get balance ", balance, accounts)
     })
@@ -111,7 +111,7 @@ describe('Initialize wallet ', () => {
             from: accounts[0],
             to: '0x641BB2596D8c0b32471260712566BF933a2f1a8e',
             value: 0,
-            data: '0x00'
+            data: '0x'
         }
         const getEstimate = await mantleKeyring.getFees(tx, web3)
         console.log(" get gas estimate  ", getEstimate)
@@ -122,18 +122,30 @@ describe('Initialize wallet ', () => {
         const accounts = await mantleKeyring.getAccounts()
         const from = accounts[0]
         const web3 = new Web3(TESTNET.URL);
+
+        const count = await web3.eth.getTransactionCount(from);
+
+        const defaultNonce = await web3.utils.toHex(count);
+        const to = '0x641BB2596D8c0b32471260712566BF933a2f1a8e' 
+
+        const getFeeEstimate= await mantleKeyring.getFees({from,to,
+            value: web3.utils.numberToHex(web3.utils.toWei('0', 'ether')),data:"0x00"},web3);
+            console.log(getFeeEstimate);
+
         const rawTx = {
-            to: '0xacde0f575d8caf7bdba417326797c1a1d1b21f88',        //recepient address
+            to,
             from,
-            nonce: await web3.eth.getTransactionCount(from),
-            gasPrice: web3.utils.toHex(3),
-            gas: web3.utils.toHex(300000),
-            value: web3.utils.toHex(100000),
-        }
+            value: web3.utils.numberToHex(web3.utils.toWei('900', 'ether')),
+            gasLimit:getFeeEstimate.gasLimit,
+            gasPrice: getFeeEstimate.fees.slow.gasPrice,
+            nonce: defaultNonce,
+            data: '0x',
+            chainId: TESTNET.CHAIN_ID
+        };
 
         const privateKey = await mantleKeyring.exportAccount(accounts[0])
         const signedTX = await mantleKeyring.signTransaction(rawTx, privateKey)
-        console.log("signedTX =", signedTX)
+        console.log("signedTX ", signedTX)
 
     })
 

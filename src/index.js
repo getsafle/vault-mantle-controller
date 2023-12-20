@@ -2,12 +2,15 @@
 const { EventEmitter } = require('events')
 const log = require('loglevel')
 const ethUtil = require('ethereumjs-util')
-const Tx = require('ethereumjs-tx');
 
 const bip39 = require('bip39')
 const ObservableStore = require('obs-store')
 const encryptor = require('browser-passworder')
 const { normalize: normalizeAddress } = require('eth-sig-util')
+
+const { LegacyTransaction } = require('@ethereumjs/tx')
+const { Common, Hardfork } = require('@ethereumjs/common')
+const { bufferToHex } = require('ethereumjs-util')
 
 const SimpleKeyring = require('eth-simple-keyring')
 const HdKeyring = require('eth-hd-keyring')
@@ -256,21 +259,26 @@ class KeyringController extends EventEmitter {
      *
      * Signs an MANTLE transaction object.
      *
-     * @param {Object} mantleTx - The transaction to sign.
-     * @param {Object} web3 - web3 object.
+     * @param {Object} rawTx - The transaction to sign.
+     * @param {Object} privateKey - web3 object.
      * @returns {string} The signed transaction raw string.
      */
 
-    async signTransaction(mantleTx, privateKey) {
-        const tx = new Tx(mantleTx);
+    async signTransaction(rawTx, privateKey) {
 
         const pkey = Buffer.from(privateKey, 'hex');
 
-        tx.sign(pkey);
+        const chainId = rawTx.chainId;
 
-        const signedTx = `0x${tx.serialize().toString('hex')}`;
+        const common = Common.custom({ chainId: chainId }, { hardfork: Hardfork.Istanbul })
+        
+        const tx = LegacyTransaction.fromTxData(rawTx,{common})
 
-        return signedTx;
+        const signedTransaction = tx.sign(pkey);
+
+        const signedTx = bufferToHex(signedTransaction.serialize());
+
+        return signedTx
     }
 
     /**
